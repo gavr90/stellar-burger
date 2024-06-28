@@ -1,12 +1,10 @@
 import {
   TLoginData,
   TRegisterData,
-  forgotPasswordApi,
   getUserApi,
   loginUserApi,
   logoutApi,
-  registerUserApi,
-  resetPasswordApi
+  registerUserApi
 } from '@api';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getCookie, setCookie } from '../../utils/cookie';
@@ -40,40 +38,18 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-export const checkUserAuth = createAsyncThunk(
-  'user/checkUserAuth',
-  (_, { dispatch }) => {
-    if (getCookie('accessToken')) {
-      getUserApi()
-        .then((resolve) => dispatch(setUser(resolve.user)))
-        .finally(() => dispatch(setIsAuthChecked(true)));
-    } else {
-      dispatch(setIsAuthChecked(true));
-    }
-  }
-);
-
-export const forgotPassword = createAsyncThunk(
-  'password-reset',
-  async (data: { email: string }, { rejectWithValue }) => {
-    try {
-      return await forgotPasswordApi(data);
-    } catch (error) {
-      return rejectWithValue(error);
-    }
-  }
-);
-
-export const resetPassword = createAsyncThunk(
-  'password-reset/reset',
-  async (data: { password: string; token: string }, { rejectWithValue }) => {
-    try {
-      return await resetPasswordApi(data);
-    } catch (error) {
-      return rejectWithValue(error);
-    }
-  }
-);
+// export const checkUserAuth = createAsyncThunk(
+//   'user/checkUserAuth',
+//   (_, { dispatch }) => {
+//     if (getCookie('accessToken')) {
+//       getUserApi()
+//         .then((resolve) => dispatch(setUser(resolve.user)))
+//         .finally(() => dispatch(setIsAuthChecked(true)));
+//     } else {
+//       dispatch(setIsAuthChecked(true));
+//     }
+//   }
+// );
 
 export const logout = createAsyncThunk(
   'auth/logout',

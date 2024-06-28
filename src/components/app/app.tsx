@@ -16,16 +16,24 @@ import '../../index.css';
 import styles from './app.module.css';
 
 import { AppHeader, ProtectedRoute } from '@components';
+import { useDispatch, useSelector } from '../../services/store';
+import { useEffect } from 'react';
+import { getIngredients } from '../../services/ingredients/actions';
 
 const App = () => {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const location = useLocation();
   const backgroundLocation = location?.state?.background;
+  const userName = useSelector((state) => state.auth.user?.name);
+
+  useEffect(() => {
+    dispatch(getIngredients());
+  }, []);
 
   return (
     <div className={styles.app}>
-      <AppHeader />
+      <AppHeader name={userName} />
       <Routes location={backgroundLocation || location}>
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />

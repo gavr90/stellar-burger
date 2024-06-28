@@ -6,10 +6,11 @@ import {
   useSelector as selectorHook
 } from 'react-redux';
 import { authSlice } from './auth/slice';
+import { ingredientsSlice } from './ingredients/slice';
 
 const rootReducer = combineReducers({
-  [authSlice.reducerPath]: authSlice.reducer
-  // ingredientsSlice: ingredientsReducer;
+  [authSlice.reducerPath]: authSlice.reducer,
+  [ingredientsSlice.reducerPath]: ingredientsSlice.reducer
   // constructorSlice: constructorReducer;
   // ordersSlice: orderReducer;
   // feedsSlice: feedsReducer;

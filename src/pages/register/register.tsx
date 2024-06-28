@@ -1,18 +1,17 @@
 import { FC, SyntheticEvent, useState } from 'react';
 import { RegisterUI } from '@ui-pages';
-import { useSelector } from 'react-redux';
 import { getIsAuthChecked } from '../../services/auth/slice';
 import { Navigate } from 'react-router-dom';
 import { registerUser } from '../../services/auth/actions';
-import { useDispatch } from '../../services/store';
+import { useDispatch, useSelector } from '../../services/store';
 
 export const Register: FC = () => {
   const dispatch = useDispatch();
+  const isAuthChecked = useSelector(getIsAuthChecked);
+
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const isAuthChecked = useSelector(getIsAuthChecked);
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
@@ -21,7 +20,6 @@ export const Register: FC = () => {
       name: userName,
       password: password
     };
-
     dispatch(registerUser(data));
   };
 
