@@ -7,10 +7,15 @@ import {
 } from 'react-redux';
 import { authSlice } from './auth/slice';
 import { ingredientsSlice } from './ingredients/slice';
+import { burgerConstructorSlice } from './burger-constructor/slice';
+import { feedSlice } from './feed/slice';
 
 const rootReducer = combineReducers({
   [authSlice.reducerPath]: authSlice.reducer,
-  [ingredientsSlice.reducerPath]: ingredientsSlice.reducer
+  [ingredientsSlice.reducerPath]: ingredientsSlice.reducer,
+  [burgerConstructorSlice.reducerPath]: burgerConstructorSlice.reducer,
+  [feedSlice.reducerPath]: feedSlice.reducer
+
   // constructorSlice: constructorReducer;
   // ordersSlice: orderReducer;
   // feedsSlice: feedsReducer;

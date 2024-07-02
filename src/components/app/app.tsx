@@ -19,6 +19,7 @@ import { AppHeader, ProtectedRoute } from '@components';
 import { useDispatch, useSelector } from '../../services/store';
 import { useEffect } from 'react';
 import { getIngredients } from '../../services/ingredients/actions';
+import { getFeed } from '../../services/feed/actions';
 
 const App = () => {
   const navigate = useNavigate();
@@ -29,7 +30,8 @@ const App = () => {
 
   useEffect(() => {
     dispatch(getIngredients());
-  }, []);
+    dispatch(getFeed());
+  }, [dispatch]);
 
   return (
     <div className={styles.app}>
@@ -96,7 +98,7 @@ const App = () => {
               <Modal
                 title='feed-info'
                 onClose={() => navigate('/feed')}
-                children={<FeedInfo />}
+                children={<OrderInfo />}
               />
             }
           />
@@ -104,8 +106,8 @@ const App = () => {
             path='/ingredients/:id'
             element={
               <Modal
-                title='ingredient-details'
-                onClose={() => navigate('/ingredients')}
+                title='Детали ингредиента'
+                onClose={() => navigate('/')}
                 children={<IngredientDetails />}
               />
             }
@@ -115,8 +117,8 @@ const App = () => {
             element={
               <ProtectedRoute>
                 <Modal
-                  onClose={() => navigate('/profile/orders')}
                   title='order-info'
+                  onClose={() => navigate('/profile/orders')}
                   children={<OrderInfo />}
                 />
               </ProtectedRoute>

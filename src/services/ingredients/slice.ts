@@ -1,10 +1,4 @@
-import {
-  PayloadAction,
-  createSelector,
-  createSlice,
-  isPending,
-  isRejected
-} from '@reduxjs/toolkit';
+import { createSelector, createSlice } from '@reduxjs/toolkit';
 import { TIngredient } from '@utils-types';
 import { getIngredients } from './actions';
 
@@ -35,10 +29,10 @@ export const ingredientsSlice = createSlice({
       (ingredients) =>
         ingredients.filter((ingredient) => ingredient.type.includes('main'))
     ),
-    getSouces: createSelector(
+    getSauces: createSelector(
       (state: TIngredientsState) => state.ingredients,
       (ingredients) =>
-        ingredients.filter((ingredient) => ingredient.type.includes('souce'))
+        ingredients.filter((ingredient) => ingredient.type.includes('sauce'))
     ),
     getIngredientsLoading: (state) => state.loading,
     getIngredientsError: (state) => state.error
@@ -49,10 +43,10 @@ export const ingredientsSlice = createSlice({
         state.loading = false;
         state.ingredients = action.payload;
       })
-      .addMatcher(isPending, (state) => {
+      .addCase(getIngredients.pending, (state) => {
         state.loading = true;
       })
-      .addMatcher(isRejected, (state, action) => {
+      .addCase(getIngredients.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });
@@ -63,6 +57,6 @@ export const {
   getAllIngredients,
   getBuns,
   getMains,
-  getSouces,
+  getSauces,
   getIngredientsError
 } = ingredientsSlice.selectors;
