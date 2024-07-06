@@ -5,7 +5,7 @@ import {
   isRejected
 } from '@reduxjs/toolkit';
 import { TUser } from '@utils-types';
-import { loginUser, logout, registerUser } from './actions';
+import { loginUser, logout, registerUser, updateUser } from './actions';
 
 type TAuthState = {
   loading: boolean;
@@ -48,6 +48,10 @@ export const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload;
         state.isAuthChecked = true;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
       })
       .addCase(logout.fulfilled, (state) => {
         state.loading = false;

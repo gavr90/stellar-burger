@@ -7,7 +7,6 @@ import { getFeed } from '../../services/feed/actions';
 
 export const Feed: FC = () => {
   const dispatch = useDispatch();
-  /** TODO: взять переменную из стора */
   const orders: TOrder[] = useSelector((state) => state.feed.feed.orders);
 
   if (!orders.length) {

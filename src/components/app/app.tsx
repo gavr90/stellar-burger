@@ -1,4 +1,10 @@
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import {
+  Routes,
+  Route,
+  useNavigate,
+  useLocation,
+  useMatch
+} from 'react-router-dom';
 
 import {
   ConstructorPage,
@@ -27,11 +33,14 @@ const App = () => {
   const location = useLocation();
   const backgroundLocation = location?.state?.background;
   const userName = useSelector((state) => state.auth.user?.name);
+  const profileMatch = useMatch('profile/orders/:number')?.params.number;
+  const feedMatch = useMatch('feed/:number')?.params.number;
+  const orderId = profileMatch || feedMatch;
 
   useEffect(() => {
     dispatch(getIngredients());
     dispatch(getFeed());
-  }, [dispatch]);
+  }, []);
 
   return (
     <div className={styles.app}>
@@ -42,7 +51,7 @@ const App = () => {
         <Route
           path='/login'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute onlyUnAuth>
               <Login />
             </ProtectedRoute>
           }
@@ -50,7 +59,7 @@ const App = () => {
         <Route
           path='/register'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute onlyUnAuth>
               <Register />
             </ProtectedRoute>
           }
@@ -58,7 +67,7 @@ const App = () => {
         <Route
           path='/forgot-password'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute onlyUnAuth>
               <ForgotPassword />
             </ProtectedRoute>
           }
@@ -66,7 +75,7 @@ const App = () => {
         <Route
           path='/reset-password'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute onlyUnAuth>
               <ResetPassword />
             </ProtectedRoute>
           }
@@ -96,7 +105,7 @@ const App = () => {
             path='/feed/:number'
             element={
               <Modal
-                title='feed-info'
+                title={`#${orderId}`}
                 onClose={() => navigate('/feed')}
                 children={<OrderInfo />}
               />
@@ -117,7 +126,7 @@ const App = () => {
             element={
               <ProtectedRoute>
                 <Modal
-                  title='order-info'
+                  title={`#${orderId}`}
                   onClose={() => navigate('/profile/orders')}
                   children={<OrderInfo />}
                 />

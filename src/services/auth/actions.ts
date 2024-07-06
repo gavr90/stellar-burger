@@ -4,7 +4,8 @@ import {
   getUserApi,
   loginUserApi,
   logoutApi,
-  registerUserApi
+  registerUserApi,
+  updateUserApi
 } from '@api';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getCookie, setCookie } from '../../utils/cookie';
@@ -50,6 +51,20 @@ export const loginUser = createAsyncThunk(
 //     }
 //   }
 // );
+
+export const updateUser = createAsyncThunk(
+  'auth/updateUser',
+  async (user: Partial<TRegisterData>, { rejectWithValue }) => {
+    try {
+      const result = await updateUserApi(user);
+      // setCookie('accessToken', result.accessToken);
+      // localStorage.setItem('refreshToken', result.refreshToken);
+      return result.user;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
 
 export const logout = createAsyncThunk(
   'auth/logout',
