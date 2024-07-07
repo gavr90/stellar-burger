@@ -14,22 +14,21 @@ import {
 export const OrderInfo: FC = () => {
   const [orderData, setOrderData] = useState<TOrder | null>(null);
   const dispatch = useDispatch();
-  const params = useParams();
-  const num = Number(params.number);
+  const number = useParams<'number'>();
   const orders = useSelector(getAllOrders);
   const selectedOrder = useSelector(getSelectedOrder);
 
   useEffect(() => {
-    if (num) {
-      const order: TOrder | undefined = orders.find((o) => o.number === num);
-      if (order) {
-        setOrderData(order);
-      } else {
-        dispatch(getOrderByNumber(num));
-        setOrderData(selectedOrder);
-      }
+    const order: TOrder | undefined = orders.find(
+      (o) => o.number === Number(number)
+    );
+    if (order) {
+      setOrderData(order);
+    } else {
+      dispatch(getOrderByNumber(Number(number)));
+      setOrderData(selectedOrder);
     }
-  }, [num]);
+  }, [number]);
 
   const ingredients: TIngredient[] = useSelector(getAllIngredients);
 

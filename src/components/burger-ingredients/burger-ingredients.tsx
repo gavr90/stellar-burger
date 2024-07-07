@@ -6,9 +6,9 @@ import { BurgerIngredientsUI } from '../ui/burger-ingredients';
 import { useSelector, getBuns, getMains, getSauces } from '@services';
 
 export const BurgerIngredients: FC = () => {
-  const buns: any = useSelector(getBuns);
-  const mains: any = useSelector(getMains);
-  const sauces: any = useSelector(getSauces);
+  const buns = useSelector(getBuns);
+  const mains = useSelector(getMains);
+  const sauces = useSelector(getSauces);
 
   const [currentTab, setCurrentTab] = useState<TTabMode>('bun');
   const titleBunRef = useRef<HTMLHeadingElement>(null);

@@ -36,7 +36,7 @@ const App = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
-  const backgroundLocation = location?.state?.background;
+  const backgroundLocation = location.state?.background;
   const userName = useSelector(getUserName);
   const profileMatch = useMatch('profile/orders/:number')?.params.number;
   const feedMatch = useMatch('feed/:number')?.params.number;
@@ -45,7 +45,6 @@ const App = () => {
   useEffect(() => {
     dispatch(getUser());
     dispatch(getIngredients());
-    dispatch(getFeed());
   }, []);
 
   return (
@@ -102,6 +101,9 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+        <Route path='/feed/:number' element={<OrderInfo />} />
+        <Route path='/ingredients/:id' element={<IngredientDetails />} />
+        <Route path='/profile/orders/:number' element={<OrderInfo />} />
         <Route path='*' element={<NotFound404 />} />
       </Routes>
 

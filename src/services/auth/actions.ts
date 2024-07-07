@@ -12,46 +12,31 @@ import { deleteCookie, setCookie } from '../../utils/cookie';
 
 export const registerUser = createAsyncThunk(
   'auth/register',
-  async (data: TRegisterData, { rejectWithValue }) => {
-    try {
-      const result = await registerUserApi(data);
-      setCookie('accessToken', result.accessToken);
-      localStorage.setItem('refreshToken', result.refreshToken);
-      return result.user;
-    } catch (error) {
-      return rejectWithValue(error);
-    }
+  async (data: TRegisterData) => {
+    const result = await registerUserApi(data);
+    setCookie('accessToken', result.accessToken);
+    localStorage.setItem('refreshToken', result.refreshToken);
+    return result.user;
   }
 );
 
 export const loginUser = createAsyncThunk(
   'auth/login',
-  async (data: TLoginData, { rejectWithValue }) => {
-    try {
-      const result = await loginUserApi(data);
-      setCookie('accessToken', result.accessToken);
-      localStorage.setItem('refreshToken', result.refreshToken);
-      return result.user;
-    } catch (error) {
-      return rejectWithValue(error);
-    }
+  async (data: TLoginData) => {
+    const result = await loginUserApi(data);
+    setCookie('accessToken', result.accessToken);
+    localStorage.setItem('refreshToken', result.refreshToken);
+    return result.user;
   }
 );
 
-export const getUser = createAsyncThunk(
-  'auth/getUser',
-  async () => await getUserApi()
-);
+export const getUser = createAsyncThunk('auth/getUser', getUserApi);
 
 export const updateUser = createAsyncThunk(
   'auth/updateUser',
-  async (user: Partial<TRegisterData>, { rejectWithValue }) => {
-    try {
-      const result = await updateUserApi(user);
-      return result.user;
-    } catch (error) {
-      return rejectWithValue(error);
-    }
+  async (user: Partial<TRegisterData>) => {
+    const result = await updateUserApi(user);
+    return result.user;
   }
 );
 
