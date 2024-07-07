@@ -1,13 +1,16 @@
 import { FC, SyntheticEvent, useState } from 'react';
 import { RegisterUI } from '@ui-pages';
-import { getIsAuthChecked } from '../../services/auth/slice';
 import { Navigate } from 'react-router-dom';
-import { registerUser } from '../../services/auth/actions';
-import { useDispatch, useSelector } from '../../services/store';
+import {
+  authenticatedSelector,
+  registerUser,
+  useDispatch,
+  useSelector
+} from '@services';
 
 export const Register: FC = () => {
   const dispatch = useDispatch();
-  const isAuthChecked = useSelector(getIsAuthChecked);
+  const isAuthenticated = useSelector(authenticatedSelector);
 
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
@@ -23,8 +26,8 @@ export const Register: FC = () => {
     dispatch(registerUser(data));
   };
 
-  if (isAuthChecked) {
-    return <Navigate to={'/'} />;
+  if (isAuthenticated) {
+    return <Navigate to={'/'} replace />;
   }
 
   return (

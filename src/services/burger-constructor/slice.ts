@@ -1,12 +1,5 @@
-import {
-  PayloadAction,
-  createSlice,
-  isPending,
-  isRejected,
-  nanoid
-} from '@reduxjs/toolkit';
+import { PayloadAction, createSlice, nanoid } from '@reduxjs/toolkit';
 import { TConstructorIngredient, TIngredient, TOrder } from '@utils-types';
-import { act } from 'react-dom/test-utils';
 import { orderBurger } from './actions';
 
 type TBurgerConstructorState = {
@@ -15,7 +8,7 @@ type TBurgerConstructorState = {
     ingredients: TConstructorIngredient[];
   };
   orderRequest: boolean;
-  orderModalData: TOrder | null;
+  orderResult: TOrder | null;
   error?: string;
 };
 
@@ -25,7 +18,7 @@ const initialState: TBurgerConstructorState = {
     ingredients: []
   },
   orderRequest: false,
-  orderModalData: null
+  orderResult: null
 };
 
 export const burgerConstructorSlice = createSlice({
@@ -79,11 +72,8 @@ export const burgerConstructorSlice = createSlice({
         state.constructorItems.ingredients.splice(index, 1);
       }
     },
-    setOrderModalData: (state, action: PayloadAction<TOrder | null>) => {
-      state.orderModalData = action.payload;
-    },
-    clearOrderModalData(state) {
-      state.orderModalData = null;
+    clearOrderResult(state) {
+      state.orderResult = null;
     },
     clearConstructorItems(state) {
       state.constructorItems.bun = null;
@@ -92,14 +82,14 @@ export const burgerConstructorSlice = createSlice({
   },
   selectors: {
     getConstructorItems: (state) => state.constructorItems,
-    getOrderModalData: (state) => state.orderModalData,
-    getError: (state) => state.error
+    getOrderRequest: (state) => state.orderRequest,
+    getOrderResult: (state) => state.orderResult
   },
   extraReducers: (builder) => {
     builder
       .addCase(orderBurger.fulfilled, (state, action) => {
         state.orderRequest = false;
-        state.orderModalData = action.payload.order;
+        state.orderResult = action.payload.order;
       })
       .addCase(orderBurger.pending, (state) => {
         state.orderRequest = true;
@@ -116,9 +106,8 @@ export const {
   moveIngredientUp,
   moveIngredientDown,
   removeIngredient,
-  setOrderModalData,
-  clearOrderModalData,
+  clearOrderResult,
   clearConstructorItems
 } = burgerConstructorSlice.actions;
-export const { getConstructorItems, getError, getOrderModalData } =
+export const { getConstructorItems, getOrderRequest, getOrderResult } =
   burgerConstructorSlice.selectors;

@@ -1,12 +1,15 @@
 import { FC, useEffect, useMemo, useState } from 'react';
-import { Preloader } from '../ui/preloader';
-import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient, TOrder } from '@utils-types';
-import { useDispatch, useSelector } from '../../services/store';
 import { useParams } from 'react-router-dom';
-import { getOrderByNumber } from '../../services/profile-orders/actions';
-import { getSelectedOrder } from '../../services/profile-orders/slice';
-import { getAllOrders } from '../../services/feed/slice';
+import { Preloader, OrderInfoUI } from '@ui';
+import {
+  useDispatch,
+  useSelector,
+  getOrderByNumber,
+  getSelectedOrder,
+  getAllOrders,
+  getAllIngredients
+} from '@services';
 
 export const OrderInfo: FC = () => {
   const [orderData, setOrderData] = useState<TOrder | null>(null);
@@ -28,9 +31,7 @@ export const OrderInfo: FC = () => {
     }
   }, [num]);
 
-  const ingredients: TIngredient[] = useSelector(
-    (state) => state.ingredients.ingredients
-  );
+  const ingredients: TIngredient[] = useSelector(getAllIngredients);
 
   /* Готовим данные для отображения */
   const orderInfo = useMemo(() => {

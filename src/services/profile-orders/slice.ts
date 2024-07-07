@@ -24,9 +24,7 @@ export const profileOrdersSlice = createSlice({
   selectors: {
     getProfileOrders: (state) => state.orders,
     getSelectedOrder: (state) => state.selectedOrder[0],
-    getSelectedOrderId: (state) => state.selectedOrder[0]._id,
-    getProfileOrdersLoading: (state) => state.isLoading,
-    getProfileOrdersError: (state) => state.error
+    getSelectedOrderId: (state) => state.selectedOrder[0]._id
   },
   extraReducers: (builder) => {
     builder
@@ -37,7 +35,6 @@ export const profileOrdersSlice = createSlice({
       .addCase(getOrderByNumber.fulfilled, (state, action) => {
         state.isLoading = false;
         state.selectedOrder = action.payload.orders;
-        console.log(state.selectedOrder);
       })
       .addMatcher(isPending, (state) => {
         state.isLoading = true;
@@ -49,10 +46,5 @@ export const profileOrdersSlice = createSlice({
   }
 });
 
-export const {
-  getProfileOrders,
-  getSelectedOrder,
-  getSelectedOrderId,
-  getProfileOrdersLoading,
-  getProfileOrdersError
-} = profileOrdersSlice.selectors;
+export const { getProfileOrders, getSelectedOrder, getSelectedOrderId } =
+  profileOrdersSlice.selectors;

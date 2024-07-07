@@ -1,6 +1,5 @@
 import { getFeedsApi } from '@api';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { getCookie, setCookie } from '../../utils/cookie';
 
 export const getFeed = createAsyncThunk(
   'feed',

@@ -1,36 +1,34 @@
 import { FC, useMemo } from 'react';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
-import { useDispatch, useSelector } from '../../services/store';
-import { orderBurger } from '../../services/burger-constructor/actions';
-import { useNavigate } from 'react-router-dom';
 import {
+  useDispatch,
+  useSelector,
+  orderBurger,
   clearConstructorItems,
-  clearOrderModalData
-} from '../../services/burger-constructor/slice';
+  clearOrderResult,
+  getConstructorItems,
+  getOrderRequest,
+  getOrderResult,
+  getUser,
+  getUserSelector
+} from '@services';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor: FC = () => {
-  /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const constructorItems = useSelector(
-    (state) => state.burgerConstructor.constructorItems
-  );
+  const location = useLocation();
+  const constructorItems = useSelector(getConstructorItems);
+  const orderRequest = useSelector(getOrderRequest);
+  const orderResult = useSelector(getOrderResult);
 
-  const orderRequest = useSelector(
-    (state) => state.burgerConstructor.orderRequest
-  );
-
-  const orderModalData = useSelector(
-    (state) => state.burgerConstructor.orderModalData
-  );
-
-  const user = useSelector((state) => state.auth.user);
+  const user = useSelector(getUserSelector);
 
   const onOrderClick = () => {
-    // if (!user) {
-    //   return navigate('/login');
-    // }
+    if (!user) {
+      return navigate('/login', { replace: true, state: { from: location } });
+    }
 
     if (!constructorItems.bun || orderRequest) return;
     const itemsIds = [
@@ -44,7 +42,7 @@ export const BurgerConstructor: FC = () => {
 
   const closeOrderModal = () => {
     dispatch(clearConstructorItems());
-    dispatch(clearOrderModalData());
+    dispatch(clearOrderResult());
     navigate('/', { replace: true });
   };
 
@@ -63,7 +61,7 @@ export const BurgerConstructor: FC = () => {
       price={price}
       orderRequest={orderRequest}
       constructorItems={constructorItems}
-      orderModalData={orderModalData}
+      orderModalData={orderResult}
       onOrderClick={onOrderClick}
       closeOrderModal={closeOrderModal}
     />

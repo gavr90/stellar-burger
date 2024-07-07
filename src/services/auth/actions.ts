@@ -8,8 +8,7 @@ import {
   updateUserApi
 } from '@api';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { getCookie, setCookie } from '../../utils/cookie';
-import { setIsAuthChecked, setUser } from './slice';
+import { deleteCookie, setCookie } from '../../utils/cookie';
 
 export const registerUser = createAsyncThunk(
   'auth/register',
@@ -39,26 +38,16 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-// export const checkUserAuth = createAsyncThunk(
-//   'user/checkUserAuth',
-//   (_, { dispatch }) => {
-//     if (getCookie('accessToken')) {
-//       getUserApi()
-//         .then((resolve) => dispatch(setUser(resolve.user)))
-//         .finally(() => dispatch(setIsAuthChecked(true)));
-//     } else {
-//       dispatch(setIsAuthChecked(true));
-//     }
-//   }
-// );
+export const getUser = createAsyncThunk(
+  'auth/getUser',
+  async () => await getUserApi()
+);
 
 export const updateUser = createAsyncThunk(
   'auth/updateUser',
   async (user: Partial<TRegisterData>, { rejectWithValue }) => {
     try {
       const result = await updateUserApi(user);
-      // setCookie('accessToken', result.accessToken);
-      // localStorage.setItem('refreshToken', result.refreshToken);
       return result.user;
     } catch (error) {
       return rejectWithValue(error);
@@ -66,7 +55,8 @@ export const updateUser = createAsyncThunk(
   }
 );
 
-export const logout = createAsyncThunk(
-  'auth/logout',
-  async () => await logoutApi()
-);
+export const logout = createAsyncThunk('auth/logout', async () => {
+  await logoutApi();
+  localStorage.removeItem('refreshToken');
+  deleteCookie('accessToken');
+});

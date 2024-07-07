@@ -17,27 +17,33 @@ import {
   Register,
   ResetPassword
 } from '@pages';
-import { Modal, FeedInfo, OrderInfo, IngredientDetails } from '@components';
+import { Modal, OrderInfo, IngredientDetails } from '@components';
 import '../../index.css';
 import styles from './app.module.css';
 
 import { AppHeader, ProtectedRoute } from '@components';
-import { useDispatch, useSelector } from '../../services/store';
+import {
+  useDispatch,
+  useSelector,
+  getIngredients,
+  getFeed,
+  getUser,
+  getUserName
+} from '@services';
 import { useEffect } from 'react';
-import { getIngredients } from '../../services/ingredients/actions';
-import { getFeed } from '../../services/feed/actions';
 
 const App = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
   const backgroundLocation = location?.state?.background;
-  const userName = useSelector((state) => state.auth.user?.name);
+  const userName = useSelector(getUserName);
   const profileMatch = useMatch('profile/orders/:number')?.params.number;
   const feedMatch = useMatch('feed/:number')?.params.number;
   const orderId = profileMatch || feedMatch;
 
   useEffect(() => {
+    dispatch(getUser());
     dispatch(getIngredients());
     dispatch(getFeed());
   }, []);

@@ -34,8 +34,7 @@ export const ingredientsSlice = createSlice({
       (ingredients) =>
         ingredients.filter((ingredient) => ingredient.type.includes('sauce'))
     ),
-    getIngredientsLoading: (state) => state.loading,
-    getIngredientsError: (state) => state.error
+    getIngredientsLoading: (state) => state.loading
   },
   extraReducers: (builder) => {
     builder
@@ -55,8 +54,8 @@ export const ingredientsSlice = createSlice({
 
 export const {
   getAllIngredients,
+  getIngredientsLoading,
   getBuns,
   getMains,
-  getSauces,
-  getIngredientsError
+  getSauces
 } = ingredientsSlice.selectors;
