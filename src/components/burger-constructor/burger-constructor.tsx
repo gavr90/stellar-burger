@@ -1,24 +1,50 @@
 import { FC, useMemo } from 'react';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
+import {
+  useDispatch,
+  useSelector,
+  orderBurger,
+  clearConstructorItems,
+  clearOrderResult,
+  getConstructorItems,
+  getOrderRequest,
+  getOrderResult,
+  getUser,
+  getUserSelector
+} from '@services';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor: FC = () => {
-  /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
-  const constructorItems = {
-    bun: {
-      price: 0
-    },
-    ingredients: []
-  };
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const constructorItems = useSelector(getConstructorItems);
+  const orderRequest = useSelector(getOrderRequest);
+  const orderResult = useSelector(getOrderResult);
 
-  const orderRequest = false;
-
-  const orderModalData = null;
+  const user = useSelector(getUserSelector);
 
   const onOrderClick = () => {
+    if (!user) {
+      return navigate('/login', { replace: true, state: { from: location } });
+    }
+
     if (!constructorItems.bun || orderRequest) return;
+    const itemsIds = [
+      constructorItems.bun._id,
+      ...constructorItems.ingredients.map(
+        (ingredient: TConstructorIngredient) => ingredient._id
+      )
+    ];
+    dispatch(orderBurger(itemsIds));
   };
-  const closeOrderModal = () => {};
+
+  const closeOrderModal = () => {
+    dispatch(clearConstructorItems());
+    dispatch(clearOrderResult());
+    navigate('/', { replace: true });
+  };
 
   const price = useMemo(
     () =>
@@ -30,14 +56,12 @@ export const BurgerConstructor: FC = () => {
     [constructorItems]
   );
 
-  return null;
-
   return (
     <BurgerConstructorUI
       price={price}
       orderRequest={orderRequest}
       constructorItems={constructorItems}
-      orderModalData={orderModalData}
+      orderModalData={orderResult}
       onOrderClick={onOrderClick}
       closeOrderModal={closeOrderModal}
     />
