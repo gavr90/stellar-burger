@@ -4,13 +4,13 @@ import {
   useDispatch as dispatchHook,
   useSelector as selectorHook
 } from 'react-redux';
-import { authSlice } from './auth/slice';
-import { ingredientsSlice } from './ingredients/slice';
-import { burgerConstructorSlice } from './burger-constructor/slice';
-import { feedSlice } from './feed/slice';
-import { profileOrdersSlice } from './profile-orders/slice';
+import { authSlice } from './auth/auth-slice';
+import { ingredientsSlice } from './ingredients/ingredients-slice';
+import { burgerConstructorSlice } from './burger-constructor/burger-constructor-slice';
+import { feedSlice } from './feed/feed-slice';
+import { profileOrdersSlice } from './profile-orders/profile-orders-slice';
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   [authSlice.reducerPath]: authSlice.reducer,
   [ingredientsSlice.reducerPath]: ingredientsSlice.reducer,
   [burgerConstructorSlice.reducerPath]: burgerConstructorSlice.reducer,

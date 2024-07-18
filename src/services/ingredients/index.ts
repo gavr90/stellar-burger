@@ -5,5 +5,5 @@ export {
   getBuns,
   getMains,
   getSauces
-} from './slice';
+} from './ingredients-slice';
 export { getIngredients } from './actions';

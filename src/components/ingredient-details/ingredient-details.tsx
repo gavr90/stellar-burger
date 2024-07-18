@@ -3,9 +3,10 @@ import { Preloader } from '../ui/preloader';
 import { IngredientDetailsUI } from '@ui';
 import { useParams } from 'react-router-dom';
 import { getAllIngredients, useSelector } from '@services';
+import { TIngredient } from '@utils-types';
 
 export const IngredientDetails: FC = () => {
-  const ingredients = useSelector(getAllIngredients);
+  const ingredients: TIngredient[] = useSelector(getAllIngredients);
   const getIngredientById = (id: string) =>
     ingredients.find((ingredient) => ingredient._id === id);
 

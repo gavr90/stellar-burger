@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useState } from 'react';
+import { FC, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { TIngredient, TOrder } from '@utils-types';
 import { useParams } from 'react-router-dom';
 import { Preloader, OrderInfoUI } from '@ui';
@@ -12,11 +12,12 @@ import {
 } from '@services';
 
 export const OrderInfo: FC = () => {
-  const [orderData, setOrderData] = useState<TOrder | null>(null);
   const dispatch = useDispatch();
-  const number = useParams<'number'>();
+  let { number } = useParams<'number'>();
   const orders = useSelector(getAllOrders);
   const selectedOrder = useSelector(getSelectedOrder);
+  const ingredients: TIngredient[] = useSelector(getAllIngredients);
+  const [orderData, setOrderData] = useState<TOrder | null>(null);
 
   useEffect(() => {
     const order: TOrder | undefined = orders.find(
@@ -28,9 +29,7 @@ export const OrderInfo: FC = () => {
       dispatch(getOrderByNumber(Number(number)));
       setOrderData(selectedOrder);
     }
-  }, [number]);
-
-  const ingredients: TIngredient[] = useSelector(getAllIngredients);
+  });
 
   /* Готовим данные для отображения */
   const orderInfo = useMemo(() => {

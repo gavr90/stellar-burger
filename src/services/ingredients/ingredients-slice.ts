@@ -1,4 +1,4 @@
-import { createSelector, createSlice } from '@reduxjs/toolkit';
+import { createSelector, createSlice, SerializedError } from '@reduxjs/toolkit';
 import { TIngredient } from '@utils-types';
 import { getIngredients } from './actions';
 

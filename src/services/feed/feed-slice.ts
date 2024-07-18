@@ -8,7 +8,7 @@ type TFeedsState = {
     total: number;
     totalToday: number;
   };
-  isLoading: boolean;
+  loading: boolean;
   error?: string;
 };
 
@@ -18,7 +18,7 @@ const initialState: TFeedsState = {
     total: 0,
     totalToday: 0
   },
-  isLoading: false
+  loading: false
 };
 
 export const feedSlice = createSlice({
@@ -28,20 +28,20 @@ export const feedSlice = createSlice({
   selectors: {
     getFeedSelector: (state) => state.feed,
     getAllOrders: (state) => state.feed.orders,
-    getFeedLoading: (state) => state.isLoading,
+    getFeedLoading: (state) => state.loading,
     getFeedError: (state) => state.error
   },
   extraReducers: (builder) => {
     builder
       .addCase(getFeed.fulfilled, (state, action) => {
-        state.isLoading = false;
+        state.loading = false;
         state.feed = action.payload;
       })
       .addCase(getFeed.pending, (state) => {
-        state.isLoading = true;
+        state.loading = true;
       })
       .addCase(getFeed.rejected, (state, action) => {
-        state.isLoading = false;
+        state.loading = false;
         state.error = action.error.message;
       });
   }
