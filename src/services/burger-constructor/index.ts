@@ -9,5 +9,5 @@ export {
   getConstructorItems,
   getOrderRequest,
   getOrderResult
-} from './slice';
+} from './burger-constructor-slice';
 export { orderBurger } from './actions';

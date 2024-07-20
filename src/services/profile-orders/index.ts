@@ -1,7 +1,6 @@
 export {
   profileOrdersSlice,
   getProfileOrders,
-  getSelectedOrder,
-  getSelectedOrderId
-} from './slice';
+  getSelectedOrder
+} from './profile-orders-slice';
 export { getOrders, getOrderByNumber } from './actions';

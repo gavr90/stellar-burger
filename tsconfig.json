@@ -27,5 +27,5 @@
       "@services": ["src/services"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "__tests__/ingredients-slice.test.ts", "__tests__/feed-slice.test.ts", "__tests__/burger-constructor-slice.test.ts", "__tests__/auth-slice.test.ts", "__tests__/profile-orders-slice.test.ts", "__tests__/store.test.ts"]
 }

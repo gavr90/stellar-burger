@@ -5,16 +5,14 @@ import { TOrder } from '@utils-types';
 type TProfileOrdersState = {
   orders: Array<TOrder>;
   selectedOrder: Array<TOrder>;
-  selectedOrderId: string | null;
-  isLoading: boolean;
+  loading: boolean;
   error?: string;
 };
 
 const initialState: TProfileOrdersState = {
   orders: [],
   selectedOrder: [],
-  selectedOrderId: null,
-  isLoading: false
+  loading: false
 };
 
 export const profileOrdersSlice = createSlice({
@@ -23,28 +21,27 @@ export const profileOrdersSlice = createSlice({
   reducers: {},
   selectors: {
     getProfileOrders: (state) => state.orders,
-    getSelectedOrder: (state) => state.selectedOrder[0],
-    getSelectedOrderId: (state) => state.selectedOrder[0]._id
+    getSelectedOrder: (state) => state.selectedOrder[0]
   },
   extraReducers: (builder) => {
     builder
       .addCase(getOrders.fulfilled, (state, action) => {
-        state.isLoading = false;
+        state.loading = false;
         state.orders = action.payload;
       })
       .addCase(getOrderByNumber.fulfilled, (state, action) => {
-        state.isLoading = false;
+        state.loading = false;
         state.selectedOrder = action.payload.orders;
       })
       .addMatcher(isPending, (state) => {
-        state.isLoading = true;
+        state.loading = true;
       })
       .addMatcher(isRejected, (state, action) => {
-        state.isLoading = false;
+        state.loading = false;
         state.error = action.error.message;
       });
   }
 });
 
-export const { getProfileOrders, getSelectedOrder, getSelectedOrderId } =
+export const { getProfileOrders, getSelectedOrder } =
   profileOrdersSlice.selectors;

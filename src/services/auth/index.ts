@@ -5,7 +5,7 @@ export {
   getUserEmail,
   getIsAuthChecked,
   authenticatedSelector
-} from './slice';
+} from './auth-slice';
 export {
   registerUser,
   loginUser,

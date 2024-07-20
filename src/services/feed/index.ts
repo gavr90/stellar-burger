@@ -4,5 +4,5 @@ export {
   getAllOrders,
   getFeedLoading,
   getFeedError
-} from './slice';
+} from './feed-slice';
 export { getFeed } from './actions';
